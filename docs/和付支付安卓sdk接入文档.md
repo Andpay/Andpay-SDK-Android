@@ -36,7 +36,7 @@ dependencies{
 ```
 
 ##### 下载sdk导入
-将下载的andpay-sdk-android-1.0.0.aar拷贝到module的libs目录，并在module的build.gradle中填下如下配置：
+将下载的andpay-sdk-android-1.0.0.aar拷贝到module的libs目录，并在module的build.gradle中添加如下配置：
 
 ```
 repositories{
@@ -81,6 +81,18 @@ AndpaySdkManager.init(andpaySdkConfig)
 //发起订单支付，activity：当前activity；orderToken：64位订单令牌，需从和付服务端生成；andpaySdkCallback：sdk结果回调（可选）
 AndpaySdkManager.payOrder(activity,orderToken,andpaySdkCallback);
 ```
+#### 权限申请
+发起支付过程中，需要获取定位等权限，sdk中已经集成了动态权限申请功能，若项目的targetSdkVersion>=23时，请复写Activity的onRequestPermissionsResult方法
+
+```
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if(requestCode == 79801){
+        AndpaySdkManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
+    }
+}
+```
+
 #### 结果回调
 ##### 成功
 订单支付成功时调用
